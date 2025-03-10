@@ -6,6 +6,8 @@ metadata:
   name: test
   namespace: fleet-default
 spec:
+  correctDrift: {}
+  ignore: {}
   namespace: fleet-mc-kustomize-example
   resources:
   - content: |
@@ -66,7 +68,7 @@ spec:
           spec:
             containers:
             - name: php-redis
-              image: gcr.io/google-samples/gb-frontend:v5
+              image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5
               resources:
                 requests:
                   cpu: 100m
@@ -120,7 +122,7 @@ spec:
           spec:
             containers:
             - name: master
-              image: registry.k8s.io/redis:e2e
+              image: redis
               resources:
                 requests:
                   cpu: 100m
@@ -167,7 +169,7 @@ spec:
           spec:
             containers:
             - name: slave
-              image: gcr.io/google_samples/gb-redisslave:v2
+              image: redis
               resources:
                 requests:
                   cpu: 100m
@@ -281,18 +283,24 @@ spec:
   - clusterSelector:
       matchLabels:
         env: dev
+    correctDrift: {}
+    ignore: {}
     kustomize:
       dir: overlays/dev
     name: dev
   - clusterSelector:
       matchLabels:
         env: test
+    correctDrift: {}
+    ignore: {}
     kustomize:
       dir: overlays/test
     name: test
   - clusterSelector:
       matchLabels:
         env: prod
+    correctDrift: {}
+    ignore: {}
     kustomize:
       dir: overlays/prod
     name: prod
